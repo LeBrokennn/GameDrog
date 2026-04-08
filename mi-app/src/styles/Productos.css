@@ -1,0 +1,226 @@
+.productos-page {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .productos-overlay {
+    min-height: 100vh;
+    background: linear-gradient(
+      180deg,
+      rgba(5, 8, 22, 0.72),
+      rgba(5, 8, 22, 0.9)
+    );
+    padding: 40px 20px;
+  }
+  
+  .productos-container {
+    max-width: 1250px;
+    margin: 0 auto;
+  }
+  
+  .productos-title {
+    color: #f5f7ff;
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-shadow: 0 0 14px rgba(123, 44, 255, 0.35);
+  }
+  
+  .productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  
+  .producto-card {
+    background: rgba(16, 20, 40, 0.92);
+    border: 1px solid rgba(0, 194, 255, 0.16);
+    border-radius: 20px;
+    padding: 20px;
+    color: #f5f7ff;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  
+  .producto-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(123, 44, 255, 0.22);
+  }
+  
+  .producto-image {
+    height: 180px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 194, 255, 0.14),
+      rgba(123, 44, 255, 0.18)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .producto-image span {
+    font-size: 4rem;
+  }
+  
+  .producto-categoria {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #00c2ff;
+    margin-bottom: 10px;
+  }
+  
+  .producto-nombre {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  
+  .producto-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #ffffff;
+  }
+  
+  .producto-stock {
+    font-size: 0.95rem;
+    color: #c7d0ff;
+    margin-bottom: 16px;
+  }
+  
+  .producto-btn {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(90deg, #00c2ff, #7b2cff);
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  
+  .producto-btn:hover {
+    box-shadow: 0 0 18px rgba(0, 194, 255, 0.3);
+    transform: scale(1.01);
+  }
+  @media (max-width: 992px) {
+    .productos-title {
+      font-size: 2.2rem;
+    }
+  
+    .productos-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .productos-overlay {
+      padding: 20px 12px;
+    }
+  
+    .productos-title {
+      font-size: 1.6rem;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    .productos-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  
+    .producto-card {
+      padding: 14px;
+      border-radius: 14px;
+    }
+  
+    .producto-image {
+      height: 120px;
+      margin-bottom: 12px;
+    }
+  
+    .producto-image span {
+      font-size: 2.6rem;
+    }
+  
+    .producto-categoria {
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+    }
+  
+    .producto-nombre {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+  
+    .producto-price {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+  
+    .producto-stock {
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+  
+    .producto-btn {
+      padding: 10px;
+      font-size: 0.9rem;
+      border-radius: 10px;
+    }
+  }
+  .filtros-container {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .filtro-grupo {
+    background: rgba(16, 20, 40, 0.7);
+    border: 1px solid rgba(0, 194, 255, 0.14);
+    border-radius: 18px;
+    padding: 18px;
+  }
+  
+  .filtro-titulo {
+    color: #f5f7ff;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+  
+  .filtro-botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .filtro-btn {
+    border: 1px solid rgba(0, 194, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    color: #f5f7ff;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+  
+  .filtro-btn:hover {
+    background: rgba(123, 44, 255, 0.14);
+  }
+  
+  .filtro-btn.activo {
+    background: linear-gradient(90deg, #00c2ff, #7b2cff);
+    border: none;
+    color: white;
+  }

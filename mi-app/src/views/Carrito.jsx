@@ -1,44 +1,87 @@
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
+import fondo from "../assets/home2.png";
+import "../styles/Carrito.css";
 
 function Carrito() {
-  const { carrito, eliminarProducto } = useContext(AppContext);
-
-  // calcular total
-  const total = carrito.reduce((acc, item) => acc + item.precio, 0);
+  const { carrito, eliminarDelCarrito, vaciarCarrito, total } = useContext(AppContext);
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Carrito 🛒</h1>
+    <div
+      className="carrito-page"
+      style={{ backgroundImage: `url(${fondo})` }}
+    >
+      <div className="carrito-overlay">
+        <div className="carrito-container">
+          <h2 className="carrito-title">Tu carrito 🛒</h2>
 
-      {carrito.length === 0 ? (
-        <p className="text-center">No hay productos</p>
-      ) : (
-        <>
-          {carrito.map((item, index) => (
-            <div key={index} className="card p-3 mb-3 shadow">
-              <h5>{item.nombre}</h5>
-              <p>${item.precio}</p>
-
-              <button
-                className="btn btn-danger"
-                onClick={() => eliminarProducto(index)}
-              >
-                Eliminar
-              </button>
+          {carrito.length === 0 ? (
+            <div className="carrito-vacio">
+              <h3>No hay productos en tu carrito</h3>
+              <p>Agrega productos desde la tienda para verlos aquí.</p>
             </div>
-          ))}
+          ) : (
+            <div className="carrito-layout">
+              <div className="carrito-lista">
+                {carrito.map((p) => (
+                  <div key={p.id} className="carrito-card">
+                    <div className="carrito-info">
+                      <div className="carrito-img">🎮</div>
 
-          {/* TOTAL */}
-          <div className="card p-3 mt-4">
-            <h4>Total: ${total}</h4>
+                      <div>
+                        <h4>{p.nombre}</h4>
+                        <p className="carrito-categoria">
+                          {p.categoria || "Producto Gamer"}
+                        </p>
+                        <p className="carrito-precio">
+                          ${p.precio.toLocaleString("es-CL")}
+                        </p>
+                        <p className="carrito-cantidad">
+                          Cantidad: {p.cantidad}
+                        </p>
+                      </div>
+                    </div>
 
-            <button className="btn btn-success mt-2">
-              Ir a pagar 💳
-            </button>
-          </div>
-        </>
-      )}
+                    <button
+                      className="carrito-delete"
+                      onClick={() => eliminarDelCarrito(p.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="carrito-resumen">
+                <h3>Resumen de compra</h3>
+
+                <div className="resumen-linea">
+                  <span>Productos</span>
+                  <span>
+                    {carrito.reduce((acc, p) => acc + p.cantidad, 0)}
+                  </span>
+                </div>
+
+                <div className="resumen-linea">
+                  <span>Total</span>
+                  <span>${total.toLocaleString("es-CL")}</span>
+                </div>
+
+                <button className="resumen-btn-primary">
+                  Continuar compra
+                </button>
+
+                <button
+                  className="resumen-btn-secondary"
+                  onClick={vaciarCarrito}
+                >
+                  Vaciar carrito
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

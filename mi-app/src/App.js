@@ -1,24 +1,32 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AppProvider } from "./context/AppContext";
+
+import Navbar from "./components/Navbar";
+
 import Home from "./views/Home";
 import Productos from "./views/Productos";
-import Navbar from "./components/Navbar";
-import { AppProvider } from "./context/AppContext";
 import Carrito from "./views/Carrito";
-import "./App.css"; // 👈 IMPORTANTE
+import Login from "./views/Login";
+import Registro from "./views/Register";
 
 function App() {
   return (
     <AppProvider>
-      <div className="App"> {/* 👈 AGREGA ESTO */}
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/productos" element={<Productos />} />
-            <Route path="/carrito" element={<Carrito />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <Navbar />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/productos" element={<Productos />} />
+          <Route path="/carrito" element={<Carrito />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro />} />
+
+          {/* 👇 ruta fallback (PRO) */}
+          <Route path="*" element={<h2 className="text-center mt-5">Página no encontrada 😢</h2>} />
+        </Routes>
+
+      </BrowserRouter>
     </AppProvider>
   );
 }

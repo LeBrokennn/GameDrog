@@ -1,29 +1,84 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const AppContext = createContext();
 
-export function AppProvider({ children }) {
+export const AppProvider = ({ children }) => {
   const [carrito, setCarrito] = useState([]);
+  const [usuario, setUsuario] = useState(null);
 
-  // Agregar producto
-  const agregarProducto = (producto) => {
-    setCarrito([...carrito, producto]);
+  useEffect(() => {
+    const usuarioGuardado = localStorage.getItem("usuarioLogueado");
+    if (usuarioGuardado) {
+      setUsuario(JSON.parse(usuarioGuardado));
+    }
+  }, []);
+
+  const agregarAlCarrito = (producto) => {
+    const existe = carrito.find((p) => p.id === producto.id);
+
+    if (existe) {
+      const nuevoCarrito = carrito.map((p) =>
+        p.id === producto.id
+          ? { ...p, cantidad: p.cantidad + 1 }
+          : p
+      );
+      setCarrito(nuevoCarrito);
+    } else {
+      setCarrito([...carrito, { ...producto, cantidad: 1 }]);
+    }
   };
 
-  // Eliminar producto
-  const eliminarProducto = (index) => {
-    const nuevoCarrito = carrito.filter((_, i) => i !== index);
+  const eliminarDelCarrito = (id) => {
+    const nuevoCarrito = carrito.filter((p) => p.id !== id);
     setCarrito(nuevoCarrito);
   };
 
-  // Cantidad total
-  const cantidad = carrito.length;
+  const vaciarCarrito = () => {
+    setCarrito([]);
+  };
+
+  const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+
+  const registrarUsuario = (nuevoUsuario) => {
+    localStorage.setItem("usuarioRegistrado", JSON.stringify(nuevoUsuario));
+  };
+
+  const iniciarSesion = (email, password) => {
+    const usuarioRegistrado = JSON.parse(localStorage.getItem("usuarioRegistrado"));
+
+    if (
+      usuarioRegistrado &&
+      usuarioRegistrado.email === email &&
+      usuarioRegistrado.password === password
+    ) {
+      setUsuario(usuarioRegistrado);
+      localStorage.setItem("usuarioLogueado", JSON.stringify(usuarioRegistrado));
+      return true;
+    }
+
+    return false;
+  };
+
+  const cerrarSesion = () => {
+    setUsuario(null);
+    localStorage.removeItem("usuarioLogueado");
+  };
 
   return (
     <AppContext.Provider
-      value={{ carrito, agregarProducto, eliminarProducto, cantidad }}
+      value={{
+        carrito,
+        agregarAlCarrito,
+        eliminarDelCarrito,
+        vaciarCarrito,
+        total,
+        usuario,
+        registrarUsuario,
+        iniciarSesion,
+        cerrarSesion,
+      }}
     >
       {children}
     </AppContext.Provider>
   );
-}
+};

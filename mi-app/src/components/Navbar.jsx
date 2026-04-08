@@ -1,114 +1,139 @@
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
+import "../styles/Navbar.css";
 
 function Navbar() {
-  const { carrito, cantidad, eliminarProducto } = useContext(AppContext);
+  const { carrito, usuario, cerrarSesion, total, vaciarCarrito } = useContext(AppContext);
+  const [mostrarMenu, setMostrarMenu] = useState(false);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
 
+  const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+
   return (
-    <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-      <div className="container d-flex justify-content-between">
+    <>
+      <nav className="navbar-custom">
+        <div className="navbar-left">
+          <button
+            className="menu-toggle"
+            onClick={() => {
+              setMostrarMenu(!mostrarMenu);
+              setMostrarCarrito(false);
+            }}
+          >
+            ☰
+          </button>
 
-        {/* IZQUIERDA */}
-        <div>
-          <Link className="btn btn-outline-light me-2" to="/">
-            Home
-          </Link>
-
-          <Link className="btn btn-outline-light" to="/productos">
-            Productos
-          </Link>
+          <h3 className="brand">GameDrog 🎮</h3>
         </div>
 
-        {/* DERECHA */}
-        <div className="d-flex align-items-center">
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Busca aquí tu producto gamer..."
+            className="search-input"
+          />
+          <button className="search-btn">🔍</button>
+        </div>
 
-          {/* CARRITO */}
-          <div style={{ position: "relative", marginRight: "15px" }}>
-            <button
-              className="btn btn-warning"
-              onClick={() => setMostrarCarrito(!mostrarCarrito)}
-            >
-              🛒
-            </button>
+        <div className="nav-right">
+          <button
+            className="icon-btn cart-icon"
+            onClick={() => {
+              setMostrarCarrito(!mostrarCarrito);
+              setMostrarMenu(false);
+            }}
+          >
+            🛒
+            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+          </button>
 
-            {/* BURBUJA */}
-            {cantidad > 0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-8px",
-                  right: "-8px",
-                  background: "red",
-                  color: "white",
-                  borderRadius: "50%",
-                  padding: "4px 8px",
-                  fontSize: "12px"
-                }}
-              >
-                {cantidad}
-              </span>
-            )}
+          {usuario ? (
+            <>
+              <span className="nav-user">Hola, {usuario.nombre}</span>
+              <button className="nav-btn login-btn" onClick={cerrarSesion}>
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-btn login-btn">
+                Iniciar sesión
+              </Link>
 
-            {/* PANEL DESPLEGABLE */}
-            {mostrarCarrito && (
-              <div
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: "50px",
-                  width: "250px",
-                  background: "white",
-                  color: "black",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  boxShadow: "0 0 10px rgba(0,0,0,0.2)"
-                }}
-              >
-             <Link to="/carrito" className="btn btn-warning">
-  🛒
-</Link>
+              <Link to="/registro" className="nav-btn register-btn">
+                Registrarse
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
 
-                {carrito.length === 0 ? (
-                  <p>No hay productos</p>
-                ) : (
-                  carrito.map((item, index) => (
-                    <div key={index} style={{ marginBottom: "10px" }}>
-                      <p>{item.nombre}</p>
-                      <p>${item.precio}</p>
+      {mostrarMenu && (
+        <>
+          <div className="menu-overlay" onClick={() => setMostrarMenu(false)}></div>
 
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => eliminarProducto(index)}
-                      >
-                        Eliminar
-                      </button>
+          <div className="floating-menu">
+            <h4 className="menu-title">Menú</h4>
+
+            <Link to="/" className="menu-item" onClick={() => setMostrarMenu(false)}>
+              Home
+            </Link>
+            <Link to="/productos" className="menu-item" onClick={() => setMostrarMenu(false)}>
+              Productos
+            </Link>
+            <Link to="/carrito" className="menu-item" onClick={() => setMostrarMenu(false)}>
+              Carrito
+            </Link>
+          </div>
+        </>
+      )}
+
+      {mostrarCarrito && (
+        <>
+          <div className="menu-overlay" onClick={() => setMostrarCarrito(false)}></div>
+
+          <div className="mini-cart">
+            <h4 className="menu-title">Tu carrito</h4>
+
+            {carrito.length === 0 ? (
+              <p className="mini-cart-empty">No hay productos agregados.</p>
+            ) : (
+              <>
+                <div className="mini-cart-list">
+                  {carrito.map((p) => (
+                    <div key={p.id} className="mini-cart-item">
+                      <div>
+                        <strong>{p.nombre}</strong>
+                        <p>Cantidad: {p.cantidad}</p>
+                      </div>
+                      <span>${(p.precio * p.cantidad).toLocaleString("es-CL")}</span>
                     </div>
-                  ))
-                )}
+                  ))}
+                </div>
 
-                <Link to="/carrito" className="btn btn-primary w-100 mt-2">
-                  Ver carrito completo
+                <div className="mini-cart-total">
+                  <span>Total</span>
+                  <strong>${total.toLocaleString("es-CL")}</strong>
+                </div>
+
+                <Link
+                  to="/carrito"
+                  className="mini-cart-btn"
+                  onClick={() => setMostrarCarrito(false)}
+                >
+                  Ver carrito
                 </Link>
-              </div>
+
+                <button className="mini-cart-clear" onClick={vaciarCarrito}>
+                  Vaciar carrito
+                </button>
+              </>
             )}
           </div>
-
-          {/* LOGIN */}
-          <button className="btn btn-outline-light me-2">
-            Iniciar sesión
-          </button>
-
-          {/* REGISTRO */}
-          <button className="btn btn-primary">
-            Registrarse
-          </button>
-
-        </div>
-
-      </div>
-    </nav>
+        </>
+      )}
+    </>
   );
 }
 
