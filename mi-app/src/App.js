@@ -8,6 +8,7 @@ import Productos from "./views/Productos";
 import Carrito from "./views/Carrito";
 import Login from "./views/Login";
 import Registro from "./views/Register";
+import ChatBubble from "./components/ChatBubble";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           {/* 👇 ruta fallback (PRO) */}
           <Route path="*" element={<h2 className="text-center mt-5">Página no encontrada 😢</h2>} />
         </Routes>
-
+        <ChatBubble />
       </BrowserRouter>
     </AppProvider>
   );
