@@ -36,19 +36,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  animation: slideFadeIn 1s ease-out;
 }
 
-@keyframes slideFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .home-badge {
   display: inline-block;
   width: fit-content;

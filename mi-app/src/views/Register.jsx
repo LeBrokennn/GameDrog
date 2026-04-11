@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
-import "../styles/Auth.css";
+import "../styles/Register.css";
 
-function Registro() {
+function Register() {
   const { registrarUsuario } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -16,6 +16,7 @@ function Registro() {
 
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [cargando, setCargando] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -24,90 +25,102 @@ function Registro() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMensaje("");
+    setCargando(true);
 
     if (!form.nombre || !form.email || !form.password || !form.confirmar) {
       setError("Debes completar todos los campos.");
+      setCargando(false);
       return;
     }
 
     if (form.password.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres.");
+      setCargando(false);
       return;
     }
 
     if (form.password !== form.confirmar) {
       setError("Las contraseñas no coinciden.");
+      setCargando(false);
       return;
     }
 
-    registrarUsuario({
-      nombre: form.nombre,
-      email: form.email,
-      password: form.password,
-    });
+    try {
+      await registrarUsuario({
+        nombre: form.nombre,
+        email: form.email,
+        password: form.password,
+      });
 
-    setMensaje("Cuenta creada correctamente.");
-    setTimeout(() => {
-      navigate("/login");
-    }, 1200);
+      setMensaje("Cuenta creada correctamente.");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1200);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setCargando(false);
+    }
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h2 className="auth-title">Registrarse</h2>
+    <div className="register-page">
+      <div className="register-card">
+        <h2>Crear cuenta</h2>
+        <p>Regístrate para comenzar a comprar</p>
 
-        <form onSubmit={handleSubmit}>
-          <label className="auth-label">Nombre</label>
+        <form onSubmit={handleSubmit} className="register-form">
           <input
             type="text"
             name="nombre"
-            className="auth-input"
+            placeholder="Nombre completo"
             value={form.nombre}
             onChange={handleChange}
           />
 
-          <label className="auth-label">Correo</label>
           <input
             type="email"
             name="email"
-            className="auth-input"
+            placeholder="Correo electrónico"
             value={form.email}
             onChange={handleChange}
           />
 
-          <label className="auth-label">Contraseña</label>
           <input
             type="password"
             name="password"
-            className="auth-input"
+            placeholder="Contraseña"
             value={form.password}
             onChange={handleChange}
           />
 
-          <label className="auth-label">Confirmar contraseña</label>
           <input
             type="password"
             name="confirmar"
-            className="auth-input"
+            placeholder="Confirmar contraseña"
             value={form.confirmar}
             onChange={handleChange}
           />
 
-          {error && <p className="auth-error">{error}</p>}
-          {mensaje && <p className="auth-success">{mensaje}</p>}
+          {error && <p className="error-text">{error}</p>}
+          {mensaje && <p className="success-text">{mensaje}</p>}
 
-          <button type="submit" className="auth-submit">
-            Crear cuenta
+          <button type="submit" className="register-submit" disabled={cargando}>
+            {cargando ? "Creando cuenta..." : "Registrarse"}
           </button>
         </form>
+
+        <p className="register-extra">
+          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+        </p>
       </div>
     </div>
   );
 }
 
-export default Registro;
+export default Register;

@@ -9,6 +9,8 @@ import Carrito from "./views/Carrito";
 import Login from "./views/Login";
 import Registro from "./views/Register";
 import ChatBubble from "./components/ChatBubble";
+import PerfilUsuario from "./views/PerfilUsuario";
+import AdminPanel from "./views/AdminPanel";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/carrito" element={<Carrito />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/perfil" element={<PerfilUsuario />} />
+          <Route path="/admin" element={<AdminPanel />} />
 
           {/* 👇 ruta fallback (PRO) */}
           <Route path="*" element={<h2 className="text-center mt-5">Página no encontrada 😢</h2>} />

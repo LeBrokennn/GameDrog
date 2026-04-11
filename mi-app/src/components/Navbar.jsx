@@ -42,37 +42,48 @@ function Navbar() {
         </div>
 
         <div className="nav-right">
-  <button
-    className="icon-btn cart-icon"
-    onClick={() => {
-      setMostrarCarrito(!mostrarCarrito);
-      setMostrarMenu(false);
-    }}
-    aria-label="Abrir carrito"
-  >
-    <span className="cart-emoji">🛒</span>
-    {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
-  </button>
+          <button
+            className="icon-btn cart-icon"
+            onClick={() => {
+              setMostrarCarrito(!mostrarCarrito);
+              setMostrarMenu(false);
+            }}
+            aria-label="Abrir carrito"
+          >
+            <span className="cart-emoji">🛒</span>
+            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+          </button>
 
-  {usuario ? (
-    <>
-      <span className="nav-user">Hola, {usuario.nombre}</span>
-      <button className="nav-btn logout-btn" onClick={cerrarSesion}>
-        Cerrar sesión
-      </button>
-    </>
-  ) : (
-    <>
-      <Link to="/login" className="nav-btn login-btn">
-        Iniciar sesión
-      </Link>
+          {usuario ? (
+            <>
+              <span className="nav-user">Hola, {usuario.nombre}</span>
 
-      <Link to="/registro" className="nav-btn register-btn">
-        Registrarse
-      </Link>
-    </>
-  )}
-</div>
+              {usuario.rol === "admin" ? (
+                <Link to="/admin" className="nav-btn login-btn">
+                  Panel admin
+                </Link>
+              ) : (
+                <Link to="/perfil" className="nav-btn login-btn">
+                  Mi perfil
+                </Link>
+              )}
+
+              <button className="nav-btn login-btn" onClick={cerrarSesion}>
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-btn login-btn">
+                Iniciar sesión
+              </Link>
+
+              <Link to="/registro" className="nav-btn register-btn">
+                Registrarse
+              </Link>
+            </>
+          )}
+        </div>
       </nav>
 
       {mostrarMenu && (
