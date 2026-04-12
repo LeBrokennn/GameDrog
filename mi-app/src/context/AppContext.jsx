@@ -2,24 +2,16 @@ import { createContext, useEffect, useState } from "react";
 
 export const AppContext = createContext();
 
-const API_URL = "http://localhost:8080";
-
 export function AppProvider({ children }) {
   const [carrito, setCarrito] = useState([]);
   const [usuario, setUsuario] = useState(null);
-  const [token, setToken] = useState("");
 
   useEffect(() => {
     const usuarioGuardado = localStorage.getItem("usuarioLogueado");
-    const tokenGuardado = localStorage.getItem("token");
     const carritoGuardado = localStorage.getItem("carrito");
 
     if (usuarioGuardado) {
       setUsuario(JSON.parse(usuarioGuardado));
-    }
-
-    if (tokenGuardado) {
-      setToken(tokenGuardado);
     }
 
     if (carritoGuardado) {
@@ -32,53 +24,84 @@ export function AppProvider({ children }) {
   }, [carrito]);
 
   const registrarUsuario = async (nuevoUsuario) => {
-    const res = await fetch(`${API_URL}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(nuevoUsuario),
-    });
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || "No se pudo registrar el usuario");
+    const existe = usuarios.find((u) => u.email === nuevoUsuario.email);
+    if (existe) {
+      throw new Error("Ese correo ya está registrado");
     }
 
-    return data;
+    const usuarioNuevo = {
+      id: Date.now(),
+      nombre: nuevoUsuario.nombre,
+      email: nuevoUsuario.email,
+      password: nuevoUsuario.password,
+      rol: "cliente",
+      direccion: "",
+      telefono: "",
+      avatar: "",
+      compras: [],
+    };
+
+    usuarios.push(usuarioNuevo);
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+    return usuarioNuevo;
   };
 
   const iniciarSesion = async (email, password) => {
-    const res = await fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    const data = await res.json();
+    const adminQuemado = {
+      id: 999,
+      nombre: "Administrador",
+      email: "admin@gamedrog.cl",
+      password: "123456",
+      rol: "admin",
+      direccion: "",
+      telefono: "",
+      avatar: "",
+      compras: [],
+    };
 
-    if (!res.ok) {
-      throw new Error(data.error || "Correo o contraseña incorrectos");
+    const usuarioEncontrado =
+      usuarios.find((u) => u.email === email && u.password === password) ||
+      (email === adminQuemado.email && password === adminQuemado.password
+        ? adminQuemado
+        : null);
+
+    if (!usuarioEncontrado) {
+      throw new Error("Correo o contraseña incorrectos");
     }
 
-    setUsuario(data.usuario);
-    setToken(data.token);
+    setUsuario(usuarioEncontrado);
+    localStorage.setItem("usuarioLogueado", JSON.stringify(usuarioEncontrado));
 
-    localStorage.setItem("usuarioLogueado", JSON.stringify(data.usuario));
-    localStorage.setItem("token", data.token);
-
-    return data.usuario;
+    return usuarioEncontrado;
   };
 
   const cerrarSesion = () => {
     setUsuario(null);
-    setToken("");
-
     localStorage.removeItem("usuarioLogueado");
-    localStorage.removeItem("token");
+  };
+
+  const actualizarUsuario = (datosActualizados) => {
+    if (!usuario) return;
+
+    const usuarioActualizado = { ...usuario, ...datosActualizados };
+
+    setUsuario(usuarioActualizado);
+    localStorage.setItem("usuarioLogueado", JSON.stringify(usuarioActualizado));
+
+    if (usuarioActualizado.rol === "cliente") {
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+      const nuevosUsuarios = usuarios.map((u) =>
+        u.id === usuarioActualizado.id ? usuarioActualizado : u
+      );
+
+      localStorage.setItem("usuarios", JSON.stringify(nuevosUsuarios));
+    }
   };
 
   const agregarAlCarrito = (producto) => {
@@ -115,11 +138,11 @@ export function AppProvider({ children }) {
       value={{
         carrito,
         usuario,
-        token,
         total,
         registrarUsuario,
         iniciarSesion,
         cerrarSesion,
+        actualizarUsuario,
         agregarAlCarrito,
         eliminarDelCarrito,
         vaciarCarrito,

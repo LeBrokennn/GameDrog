@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import fondo from "../assets/HOME1.png";
 import "../styles/Register.css";
 
 function Register() {
@@ -69,57 +70,66 @@ function Register() {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-card">
-        <h2>Crear cuenta</h2>
-        <p>Regístrate para comenzar a comprar</p>
+    <section
+      className="register-page"
+      style={{ backgroundImage: `url(${fondo})` }}
+    >
+      <div className="register-overlay">
+        <div className="register-card">
+          <h2>Crear cuenta</h2>
+          <p>Regístrate para comenzar a comprar</p>
 
-        <form onSubmit={handleSubmit} className="register-form">
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Nombre completo"
-            value={form.nombre}
-            onChange={handleChange}
-          />
+          <form onSubmit={handleSubmit} className="register-form">
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre completo"
+              value={form.nombre}
+              onChange={handleChange}
+            />
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Correo electrónico"
-            value={form.email}
-            onChange={handleChange}
-          />
+            <input
+              type="email"
+              name="email"
+              placeholder="Correo electrónico"
+              value={form.email}
+              onChange={handleChange}
+            />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={form.password}
-            onChange={handleChange}
-          />
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              value={form.password}
+              onChange={handleChange}
+            />
 
-          <input
-            type="password"
-            name="confirmar"
-            placeholder="Confirmar contraseña"
-            value={form.confirmar}
-            onChange={handleChange}
-          />
+            <input
+              type="password"
+              name="confirmar"
+              placeholder="Confirmar contraseña"
+              value={form.confirmar}
+              onChange={handleChange}
+            />
 
-          {error && <p className="error-text">{error}</p>}
-          {mensaje && <p className="success-text">{mensaje}</p>}
+            {error && <p className="error-text">{error}</p>}
+            {mensaje && <p className="success-text">{mensaje}</p>}
 
-          <button type="submit" className="register-submit" disabled={cargando}>
-            {cargando ? "Creando cuenta..." : "Registrarse"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="register-submit"
+              disabled={cargando}
+            >
+              {cargando ? "Creando cuenta..." : "Registrarse"}
+            </button>
+          </form>
 
-        <p className="register-extra">
-          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
-        </p>
+          <p className="register-extra">
+            ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

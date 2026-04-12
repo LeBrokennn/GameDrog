@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import fondo from "../assets/HOME1.png";
 import "../styles/Login.css";
 
 function Login() {
@@ -49,40 +50,45 @@ function Login() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h2>Iniciar sesión</h2>
-        <p>Ingresa a tu cuenta para continuar</p>
+    <section
+      className="login-page"
+      style={{ backgroundImage: `url(${fondo})` }}
+    >
+      <div className="login-overlay">
+        <div className="login-card">
+          <h2>Iniciar sesión</h2>
+          <p>Ingresa a tu cuenta para continuar</p>
 
-        <form onSubmit={handleSubmit} className="login-form">
-          <input
-            type="email"
-            name="email"
-            placeholder="Correo electrónico"
-            value={form.email}
-            onChange={handleChange}
-          />
+          <form onSubmit={handleSubmit} className="login-form">
+            <input
+              type="email"
+              name="email"
+              placeholder="Correo electrónico"
+              value={form.email}
+              onChange={handleChange}
+            />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={form.password}
-            onChange={handleChange}
-          />
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              value={form.password}
+              onChange={handleChange}
+            />
 
-          {error && <p className="error-text">{error}</p>}
+            {error && <p className="error-text">{error}</p>}
 
-          <button type="submit" className="login-submit" disabled={cargando}>
-            {cargando ? "Ingresando..." : "Iniciar sesión"}
-          </button>
-        </form>
+            <button type="submit" className="login-submit" disabled={cargando}>
+              {cargando ? "Ingresando..." : "Iniciar sesión"}
+            </button>
+          </form>
 
-        <p className="login-extra">
-          ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
-        </p>
+          <p className="login-extra">
+            ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

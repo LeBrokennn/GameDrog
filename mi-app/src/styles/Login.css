@@ -1,32 +1,77 @@
 .login-page {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .login-overlay {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(
+      180deg,
+      rgba(5, 8, 22, 0.45),
+      rgba(5, 8, 22, 0.82)
+    );
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
+    padding: 24px;
   }
   
   .login-card {
-    background: #101628;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(16, 22, 40, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
     padding: 30px;
-    border-radius: 16px;
     color: white;
-    width: 320px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  }
+  
+  .login-card h2 {
+    margin-bottom: 10px;
+  }
+  
+  .login-card p {
+    color: #dce3ff;
+  }
+  
+  .login-form {
+    margin-top: 20px;
   }
   
   .login-form input {
     width: 100%;
     margin-bottom: 12px;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 12px 14px;
+    border-radius: 10px;
     border: none;
+    outline: none;
   }
   
   .login-submit {
     width: 100%;
-    padding: 10px;
-    background: #7b2cff;
+    padding: 12px;
+    background: linear-gradient(135deg, #7b2cff, #a855f7);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
+    font-weight: 700;
+  }
+  
+  .login-extra {
+    margin-top: 16px;
+  }
+  
+  .login-extra a {
+    color: #9f7bff;
+    text-decoration: none;
+  }
+  
+  .error-text {
+    color: #ff7b9c;
+    margin-bottom: 10px;
   }
