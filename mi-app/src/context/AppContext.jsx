@@ -1,10 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 
+const API_URL = "http://localhost:8080/api/productos";
+
 export const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [carrito, setCarrito] = useState([]);
   const [usuario, setUsuario] = useState(null);
+  const [productos, setProductos] = useState([]);
 
   useEffect(() => {
     const usuarioGuardado = localStorage.getItem("usuarioLogueado");
@@ -17,6 +20,18 @@ export function AppProvider({ children }) {
     if (carritoGuardado) {
       setCarrito(JSON.parse(carritoGuardado));
     }
+
+    const obtenerProductos = async () => {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        setProductos(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error al cargar productos:", error);
+      }
+    };
+
+    obtenerProductos();
   }, []);
 
   useEffect(() => {
@@ -109,9 +124,7 @@ export function AppProvider({ children }) {
 
     if (existe) {
       const nuevoCarrito = carrito.map((p) =>
-        p.id === producto.id
-          ? { ...p, cantidad: p.cantidad + 1 }
-          : p
+        p.id === producto.id ? { ...p, cantidad: p.cantidad + 1 } : p
       );
       setCarrito(nuevoCarrito);
     } else {
@@ -128,6 +141,115 @@ export function AppProvider({ children }) {
     setCarrito([]);
   };
 
+  const agregarProducto = async (productoNuevo) => {
+    const payload = {
+      nombre: productoNuevo.nombre?.trim(),
+      precio: Number(productoNuevo.precio),
+      stock: Number(productoNuevo.stock),
+      imagen: productoNuevo.imagen?.trim(),
+      categoria: productoNuevo.categoria?.trim(),
+      subcategoria: productoNuevo.subcategoria?.trim(),
+      descripcion: productoNuevo.descripcion?.trim(),
+    };
+  
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  
+    const data = await res.json();
+  
+    if (!res.ok) {
+      console.error("Error backend al agregar producto:", data);
+      throw new Error(data.error || data.detalle || "No se pudo agregar el producto");
+    }
+  
+    setProductos((prev) => [data, ...prev]);
+  };
+
+  const editarProducto = async (id, datosActualizados) => {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datosActualizados),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "No se pudo editar el producto");
+    }
+
+    setProductos((prev) =>
+      prev.map((producto) => (producto.id === id ? data : producto))
+    );
+  };
+
+  const eliminarProducto = async (id) => {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "No se pudo eliminar el producto");
+    }
+
+    setProductos((prev) => prev.filter((producto) => producto.id !== id));
+  };
+
+  const aumentarStock = async (id) => {
+    const producto = productos.find((p) => p.id === id);
+    if (!producto) return;
+
+    const nuevoStock = Number(producto.stock) + 1;
+
+    const res = await fetch(`${API_URL}/${id}/stock`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ stock: nuevoStock }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "No se pudo aumentar stock");
+    }
+
+    setProductos((prev) => prev.map((p) => (p.id === id ? data : p)));
+  };
+
+  const disminuirStock = async (id) => {
+    const producto = productos.find((p) => p.id === id);
+    if (!producto || Number(producto.stock) <= 0) return;
+
+    const nuevoStock = Number(producto.stock) - 1;
+
+    const res = await fetch(`${API_URL}/${id}/stock`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ stock: nuevoStock }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "No se pudo disminuir stock");
+    }
+
+    setProductos((prev) => prev.map((p) => (p.id === id ? data : p)));
+  };
+
   const total = carrito.reduce(
     (acc, producto) => acc + producto.precio * producto.cantidad,
     0
@@ -138,6 +260,7 @@ export function AppProvider({ children }) {
       value={{
         carrito,
         usuario,
+        productos,
         total,
         registrarUsuario,
         iniciarSesion,
@@ -146,6 +269,11 @@ export function AppProvider({ children }) {
         agregarAlCarrito,
         eliminarDelCarrito,
         vaciarCarrito,
+        agregarProducto,
+        editarProducto,
+        eliminarProducto,
+        aumentarStock,
+        disminuirStock,
       }}
     >
       {children}

@@ -1,156 +1,135 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import "../styles/Navbar.css";
 
 function Navbar() {
-  const { carrito, usuario, cerrarSesion, total, vaciarCarrito } = useContext(AppContext);
-  const [mostrarMenu, setMostrarMenu] = useState(false);
-  const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const { usuario, carrito, cerrarSesion } = useContext(AppContext);
+  const navigate = useNavigate();
+  const [menuAbierto, setMenuAbierto] = useState(false);
 
-  const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+  const cantidad = carrito.reduce(
+    (acc, producto) => acc + Number(producto.cantidad || 0),
+    0
+  );
+
+  const handleCerrarSesion = () => {
+    cerrarSesion();
+    navigate("/");
+    setMenuAbierto(false);
+  };
+
+  const toggleMenu = () => {
+    setMenuAbierto((prev) => !prev);
+  };
+
+  const cerrarMenu = () => {
+    setMenuAbierto(false);
+  };
 
   return (
-    <>
-      <nav className="navbar-custom">
-        <div className="navbar-left">
-          <button
-            className="menu-toggle"
-            onClick={() => {
-              setMostrarMenu(!mostrarMenu);
-              setMostrarCarrito(false);
-            }}
-          >
-            ☰
-          </button>
+    <nav className="navbar-gamedrog">
+      <div className="navbar-gamedrog-container">
+        <div className="navbar-gamedrog-left">
+          <div className="navbar-menu-wrapper">
+            <button
+              type="button"
+              className="navbar-menu-btn"
+              onClick={toggleMenu}
+            >
+              ☰
+            </button>
 
-          <Link to="/" className="logo">
-            <span className="logo-icon">🎮</span>
-            <span className="logo-text">
-              <span>Game</span>Drog
-            </span>
+            {menuAbierto && (
+              <div className="navbar-dropdown">
+                <Link to="/" className="navbar-dropdown-link" onClick={cerrarMenu}>
+                  Home
+                </Link>
+
+                <Link
+                  to="/productos"
+                  className="navbar-dropdown-link"
+                  onClick={cerrarMenu}
+                >
+                  Productos
+                </Link>
+
+                <Link
+                  to="/carrito"
+                  className="navbar-dropdown-link"
+                  onClick={cerrarMenu}
+                >
+                  Carrito ({cantidad})
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <Link to="/" className="navbar-brand">
+            <span className="navbar-brand-icon">🎮</span>
+            <span className="navbar-brand-text">GameDrog</span>
           </Link>
         </div>
 
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Busca aquí tu producto gamer..."
-            className="search-input"
-          />
-          <button className="search-btn">🔍</button>
+        <div className="navbar-gamedrog-center">
+          <div className="navbar-search-box">
+            <input
+              type="text"
+              className="navbar-search-input"
+              placeholder="Busca aquí tu producto gamer..."
+            />
+            <button type="button" className="navbar-search-btn">
+              🔍
+            </button>
+          </div>
+
+          <Link to="/carrito" className="navbar-cart-btn">
+            🛒
+            <span className="navbar-cart-count">{cantidad}</span>
+          </Link>
         </div>
 
-        <div className="nav-right">
-          <button
-            className="icon-btn cart-icon"
-            onClick={() => {
-              setMostrarCarrito(!mostrarCarrito);
-              setMostrarMenu(false);
-            }}
-            aria-label="Abrir carrito"
-          >
-            <span className="cart-emoji">🛒</span>
-            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
-          </button>
-
-          {usuario ? (
+        <div className="navbar-gamedrog-right">
+          {!usuario ? (
             <>
-              <span className="nav-user">Hola, {usuario.nombre}</span>
+              <Link to="/login" className="navbar-action-btn secondary">
+                Iniciar sesión
+              </Link>
+
+              <Link to="/registro" className="navbar-action-btn primary">
+                Registro
+              </Link>
+            </>
+          ) : (
+            <>
+              <span className="navbar-user-text">
+                Hola,{" "}
+                {usuario.nombre ||
+                  (usuario.rol === "admin" ? "Administrador" : "Usuario")}
+              </span>
 
               {usuario.rol === "admin" ? (
-                <Link to="/admin" className="nav-btn login-btn">
+                <Link to="/admin" className="navbar-action-btn secondary">
                   Panel admin
                 </Link>
               ) : (
-                <Link to="/perfil" className="nav-btn login-btn">
+                <Link to="/perfil" className="navbar-action-btn secondary">
                   Mi perfil
                 </Link>
               )}
 
-              <button className="nav-btn login-btn" onClick={cerrarSesion}>
+              <button
+                type="button"
+                className="navbar-action-btn secondary"
+                onClick={handleCerrarSesion}
+              >
                 Cerrar sesión
               </button>
             </>
-          ) : (
-            <>
-              <Link to="/login" className="nav-btn login-btn">
-                Iniciar sesión
-              </Link>
-
-              <Link to="/registro" className="nav-btn register-btn">
-                Registrarse
-              </Link>
-            </>
           )}
         </div>
-      </nav>
-
-      {mostrarMenu && (
-        <>
-          <div className="menu-overlay" onClick={() => setMostrarMenu(false)}></div>
-
-          <div className="floating-menu">
-            <h4 className="menu-title">Menú</h4>
-
-            <Link to="/" className="menu-item" onClick={() => setMostrarMenu(false)}>
-              Home
-            </Link>
-            <Link to="/productos" className="menu-item" onClick={() => setMostrarMenu(false)}>
-              Productos
-            </Link>
-            <Link to="/carrito" className="menu-item" onClick={() => setMostrarMenu(false)}>
-              Carrito
-            </Link>
-          </div>
-        </>
-      )}
-
-      {mostrarCarrito && (
-        <>
-          <div className="menu-overlay" onClick={() => setMostrarCarrito(false)}></div>
-
-          <div className="mini-cart">
-            <h4 className="menu-title">Tu carrito</h4>
-
-            {carrito.length === 0 ? (
-              <p className="mini-cart-empty">No hay productos agregados.</p>
-            ) : (
-              <>
-                <div className="mini-cart-list">
-                  {carrito.map((p) => (
-                    <div key={p.id} className="mini-cart-item">
-                      <div>
-                        <strong>{p.nombre}</strong>
-                        <p>Cantidad: {p.cantidad}</p>
-                      </div>
-                      <span>${(p.precio * p.cantidad).toLocaleString("es-CL")}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mini-cart-total">
-                  <span>Total</span>
-                  <strong>${total.toLocaleString("es-CL")}</strong>
-                </div>
-
-                <Link
-                  to="/carrito"
-                  className="mini-cart-btn"
-                  onClick={() => setMostrarCarrito(false)}
-                >
-                  Ver carrito
-                </Link>
-
-                <button className="mini-cart-clear" onClick={vaciarCarrito}>
-                  Vaciar carrito
-                </button>
-              </>
-            )}
-          </div>
-        </>
-      )}
-    </>
+      </div>
+    </nav>
   );
 }
 

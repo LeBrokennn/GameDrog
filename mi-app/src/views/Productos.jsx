@@ -4,87 +4,26 @@ import fondo from "../assets/home2.png";
 import "../styles/Productos.css";
 
 function Productos() {
-  const { agregarAlCarrito } = useContext(AppContext);
+  const { productos, agregarAlCarrito } = useContext(AppContext);
 
   const [categoriaActiva, setCategoriaActiva] = useState("Todos");
   const [subcategoriaActiva, setSubcategoriaActiva] = useState("Todos");
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-  const productos = [
-    {
-      id: 1,
-      nombre: "PlayStation 5",
-      precio: 499990,
-      categoria: "Consolas",
-      subcategoria: "PlayStation",
-      stock: 4,
-      imagen: "🎮",
-    },
-    {
-      id: 2,
-      nombre: "Xbox Series X",
-      precio: 459990,
-      categoria: "Consolas",
-      subcategoria: "Xbox",
-      stock: 5,
-      imagen: "🎮",
-    },
-    {
-      id: 3,
-      nombre: "Nintendo Switch OLED",
-      precio: 329990,
-      categoria: "Consolas",
-      subcategoria: "Nintendo",
-      stock: 6,
-      imagen: "🎮",
-    },
-    {
-      id: 4,
-      nombre: "Spider-Man 2",
-      precio: 54990,
-      categoria: "Juegos",
-      subcategoria: "PS5",
-      stock: 8,
-      imagen: "🕷️",
-    },
-    {
-      id: 5,
-      nombre: "EA FC 25",
-      precio: 49990,
-      categoria: "Juegos",
-      subcategoria: "Xbox",
-      stock: 10,
-      imagen: "⚽",
-    },
-    {
-      id: 6,
-      nombre: "Teclado Mecánico RGB",
-      precio: 59990,
-      categoria: "Periféricos",
-      subcategoria: "Teclados",
-      stock: 12,
-      imagen: "⌨️",
-    },
-    {
-      id: 7,
-      nombre: "Mouse Gamer Pro",
-      precio: 34990,
-      categoria: "Periféricos",
-      subcategoria: "Mouse",
-      stock: 9,
-      imagen: "🖱️",
-    },
-    {
-      id: 8,
-      nombre: "Headset Gamer RGB",
-      precio: 42990,
-      categoria: "Periféricos",
-      subcategoria: "Audífonos",
-      stock: 11,
-      imagen: "🎧",
-    },
+  const productosNormalizados = productos.map((p) => ({
+    ...p,
+    categoria: p.categoria || "General",
+    subcategoria: p.subcategoria || "Sin subcategoría",
+    imagen: p.imagen || "",
+    descripcion:
+      p.descripcion ||
+      "Producto gamer disponible en GameDrog. Revisa sus detalles y agrégalo a tu carrito.",
+  }));
+
+  const categorias = [
+    "Todos",
+    ...new Set(productosNormalizados.map((p) => p.categoria)),
   ];
-
-  const categorias = ["Todos", ...new Set(productos.map((p) => p.categoria))];
 
   const subcategorias =
     categoriaActiva === "Todos"
@@ -92,13 +31,13 @@ function Productos() {
       : [
           "Todos",
           ...new Set(
-            productos
+            productosNormalizados
               .filter((p) => p.categoria === categoriaActiva)
               .map((p) => p.subcategoria)
           ),
         ];
 
-  const productosFiltrados = productos.filter((p) => {
+  const productosFiltrados = productosNormalizados.filter((p) => {
     const coincideCategoria =
       categoriaActiva === "Todos" || p.categoria === categoriaActiva;
 
@@ -124,7 +63,9 @@ function Productos() {
                 {categorias.map((cat) => (
                   <button
                     key={cat}
-                    className={`filtro-btn ${categoriaActiva === cat ? "activo" : ""}`}
+                    className={`filtro-btn ${
+                      categoriaActiva === cat ? "activo" : ""
+                    }`}
                     onClick={() => {
                       setCategoriaActiva(cat);
                       setSubcategoriaActiva("Todos");
@@ -143,7 +84,9 @@ function Productos() {
                   {subcategorias.map((sub) => (
                     <button
                       key={sub}
-                      className={`filtro-btn ${subcategoriaActiva === sub ? "activo" : ""}`}
+                      className={`filtro-btn ${
+                        subcategoriaActiva === sub ? "activo" : ""
+                      }`}
                       onClick={() => setSubcategoriaActiva(sub)}
                     >
                       {sub}
@@ -154,36 +97,129 @@ function Productos() {
             )}
           </div>
 
-          <div className="productos-grid">
-            {productosFiltrados.map((p) => (
-              <div className="producto-card" key={p.id}>
-                <div className="producto-image">
-                  <span>{p.imagen}</span>
-                </div>
+          {productosFiltrados.length === 0 ? (
+            <div className="sin-productos">
+              <p>No hay productos disponibles todavía.</p>
+            </div>
+          ) : (
+            <div className="productos-grid">
+              {productosFiltrados.map((p) => (
+                <div className="producto-card" key={p.id}>
+                  <div
+                    className="producto-image producto-clickable"
+                    onClick={() => setProductoSeleccionado(p)}
+                  >
+                    {p.imagen ? (
+                      <img
+                        src={p.imagen}
+                        alt={p.nombre}
+                        className="producto-img-real"
+                      />
+                    ) : (
+                      <span>🎮</span>
+                    )}
+                  </div>
 
-                <span className="producto-categoria">
-                  {p.categoria} / {p.subcategoria}
+                  <span className="producto-categoria">
+                    {p.categoria} / {p.subcategoria}
+                  </span>
+
+                  <h3 className="producto-nombre">{p.nombre}</h3>
+
+                  <p className="producto-price">
+                    ${Number(p.precio).toLocaleString("es-CL")}
+                  </p>
+
+                  <p className="producto-stock">Stock disponible: {p.stock}</p>
+
+                  <div className="producto-actions">
+                    <button
+                      className="producto-detalle-btn"
+                      onClick={() => setProductoSeleccionado(p)}
+                    >
+                      Ver más
+                    </button>
+
+                    <button
+                      className="producto-btn"
+                      onClick={() => agregarAlCarrito(p)}
+                      disabled={Number(p.stock) <= 0}
+                    >
+                      {Number(p.stock) > 0
+                        ? "Agregar al carrito 🛒"
+                        : "Sin stock"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {productoSeleccionado && (
+        <div
+          className="producto-modal-overlay"
+          onClick={() => setProductoSeleccionado(null)}
+        >
+          <div
+            className="producto-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="cerrar-modal"
+              onClick={() => setProductoSeleccionado(null)}
+            >
+              ×
+            </button>
+
+            <div className="producto-modal-content">
+              <div className="producto-modal-imagen">
+                {productoSeleccionado.imagen ? (
+                  <img
+                    src={productoSeleccionado.imagen}
+                    alt={productoSeleccionado.nombre}
+                    className="producto-modal-img-real"
+                  />
+                ) : (
+                  <span>🎮</span>
+                )}
+              </div>
+
+              <div className="producto-modal-info">
+                <span className="producto-modal-categoria">
+                  {productoSeleccionado.categoria} /{" "}
+                  {productoSeleccionado.subcategoria}
                 </span>
 
-                <h3 className="producto-nombre">{p.nombre}</h3>
+                <h3>{productoSeleccionado.nombre}</h3>
 
-                <p className="producto-price">
-                  ${p.precio.toLocaleString("es-CL")}
+                <p className="producto-modal-price">
+                  ${Number(productoSeleccionado.precio).toLocaleString("es-CL")}
                 </p>
 
-                <p className="producto-stock">Stock disponible: {p.stock}</p>
+                <p className="producto-modal-stock">
+                  Stock disponible: {productoSeleccionado.stock}
+                </p>
+
+                <p className="producto-modal-descripcion">
+                  {productoSeleccionado.descripcion}
+                </p>
 
                 <button
                   className="producto-btn"
-                  onClick={() => agregarAlCarrito(p)}
+                  onClick={() => agregarAlCarrito(productoSeleccionado)}
+                  disabled={Number(productoSeleccionado.stock) <= 0}
                 >
-                  Agregar al carrito 🛒
+                  {Number(productoSeleccionado.stock) > 0
+                    ? "Agregar al carrito 🛒"
+                    : "Sin stock"}
                 </button>
               </div>
-            ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

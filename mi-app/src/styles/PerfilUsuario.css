@@ -1,0 +1,200 @@
+.perfil-page {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .perfil-overlay {
+    min-height: 100vh;
+    background: rgba(4, 6, 20, 0.72);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+  }
+  
+  .perfil-card {
+    width: 100%;
+    max-width: 760px;
+    background: rgba(12, 16, 38, 0.92);
+    border: 1px solid rgba(138, 92, 246, 0.2);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 0 30px rgba(123, 44, 255, 0.16);
+    backdrop-filter: blur(10px);
+    color: white;
+    animation: subirPerfil 0.8s ease;
+  }
+  
+  .perfil-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  
+  .perfil-avatar {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #7b2cff, #a855f7);
+    color: white;
+    font-size: 2rem;
+    font-weight: 900;
+    box-shadow: 0 0 24px rgba(123, 44, 255, 0.3);
+    flex-shrink: 0;
+  }
+  
+  .perfil-top-text {
+    flex: 1;
+  }
+  
+  .perfil-badge {
+    display: inline-block;
+    padding: 7px 16px;
+    border-radius: 20px;
+    background: rgba(123, 44, 255, 0.18);
+    border: 1px solid rgba(123, 44, 255, 0.35);
+    color: #d8c7ff;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+  
+  .perfil-top-text h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0 0 8px;
+  }
+  
+  .perfil-top-text p {
+    margin: 0;
+    color: #dce3ff;
+    line-height: 1.6;
+  }
+  
+  .perfil-resumen {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  
+  .perfil-resumen-box {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 16px;
+  }
+  
+  .perfil-resumen-box span {
+    display: block;
+    color: #bfaeff;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+  
+  .perfil-resumen-box strong {
+    font-size: 1rem;
+    color: white;
+  }
+  
+  .perfil-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .perfil-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 18px;
+  }
+  
+  .perfil-item span {
+    display: block;
+    color: #bfaeff;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+  }
+  
+  .perfil-item p {
+    margin: 0;
+    color: white;
+    font-size: 1.08rem;
+    font-weight: 700;
+    word-break: break-word;
+  }
+  
+  .perfil-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 26px;
+  }
+  
+  .perfil-btn {
+    text-align: center;
+    text-decoration: none;
+    padding: 14px;
+    border-radius: 14px;
+    font-weight: 800;
+    transition: 0.3s ease;
+  }
+  
+  .perfil-btn.principal {
+    background: linear-gradient(135deg, #7b2cff, #a855f7);
+    color: white;
+    box-shadow: 0 10px 24px rgba(123, 44, 255, 0.28);
+  }
+  
+  .perfil-btn.principal:hover {
+    transform: translateY(-2px);
+  }
+  
+  .perfil-btn.secundario,
+  .perfil-btn.terciario {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+  }
+  
+  .perfil-btn.secundario:hover,
+  .perfil-btn.terciario:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  @keyframes subirPerfil {
+    from {
+      opacity: 0;
+      transform: translateY(65px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .perfil-card {
+      padding: 24px;
+    }
+  
+    .perfil-top {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .perfil-resumen,
+    .perfil-actions {
+      grid-template-columns: 1fr;
+    }
+  
+    .perfil-top-text h2 {
+      font-size: 1.8rem;
+    }
+  }

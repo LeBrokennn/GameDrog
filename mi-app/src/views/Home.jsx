@@ -6,8 +6,9 @@ import juego5 from "../assets/juego5.png";
 import juego6 from "../assets/juego6.png";
 import "../styles/Home.css";
 
+const imagenes = [juego5, juego4, juego6];
+
 function Home() {
-  const imagenes = [juego5, juego4,juego6];
   const [indiceActual, setIndiceActual] = useState(0);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ function Home() {
     }, 3000);
 
     return () => clearInterval(intervalo);
-  }, [imagenes.length]);
+  }, []);
 
   return (
     <section
@@ -24,8 +25,8 @@ function Home() {
       style={{ backgroundImage: `url(${fondo})` }}
     >
       <div className="home-overlay">
-        <div className="home-layout">
-          <div className="home-left">
+        <div className="home-content">
+          <div className="home-texto">
             <span className="home-badge">GameDrog Store</span>
 
             <h1 className="home-title">
@@ -38,17 +39,15 @@ function Home() {
               una experiencia única.
             </p>
 
-            <div className="home-actions">
-              <Link to="/productos" className="btn-comprar">
-                Comprar ahora
-              </Link>
-            </div>
+            <Link to="/productos" className="btn-comprar">
+              Comprar ahora
+            </Link>
           </div>
 
-          <div className="home-right">
+          <div className="home-imagen">
             <img
               src={imagenes[indiceActual]}
-              alt="producto destacado"
+              alt="Juego destacado"
               className="imagen-slider"
             />
           </div>
@@ -58,4 +57,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Home; 

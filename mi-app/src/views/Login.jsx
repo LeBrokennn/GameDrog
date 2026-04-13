@@ -14,7 +14,6 @@ function Login() {
   });
 
   const [error, setError] = useState("");
-  const [cargando, setCargando] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -26,11 +25,9 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setCargando(true);
 
     if (!form.email || !form.password) {
       setError("Debes completar todos los campos.");
-      setCargando(false);
       return;
     }
 
@@ -44,8 +41,6 @@ function Login() {
       }
     } catch (err) {
       setError(err.message);
-    } finally {
-      setCargando(false);
     }
   };
 
@@ -56,34 +51,43 @@ function Login() {
     >
       <div className="login-overlay">
         <div className="login-card">
-          <h2>Iniciar sesión</h2>
-          <p>Ingresa a tu cuenta para continuar</p>
+          <div className="login-header">
+            <span className="login-badge">GameDrog</span>
+            <h2>Iniciar sesión</h2>
+            <p>Accede a tu cuenta para seguir comprando tus juegos favoritos.</p>
+          </div>
 
           <form onSubmit={handleSubmit} className="login-form">
-            <input
-              type="email"
-              name="email"
-              placeholder="Correo electrónico"
-              value={form.email}
-              onChange={handleChange}
-            />
+            <div className="input-group-auth">
+              <label>Correo electrónico</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Ingresa tu correo"
+                value={form.email}
+                onChange={handleChange}
+              />
+            </div>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              value={form.password}
-              onChange={handleChange}
-            />
+            <div className="input-group-auth">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Ingresa tu contraseña"
+                value={form.password}
+                onChange={handleChange}
+              />
+            </div>
 
             {error && <p className="error-text">{error}</p>}
 
-            <button type="submit" className="login-submit" disabled={cargando}>
-              {cargando ? "Ingresando..." : "Iniciar sesión"}
+            <button type="submit" className="auth-btn">
+              Iniciar sesión
             </button>
           </form>
 
-          <p className="login-extra">
+          <p className="auth-footer">
             ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
           </p>
         </div>

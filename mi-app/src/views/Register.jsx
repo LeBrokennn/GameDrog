@@ -17,7 +17,6 @@ function Register() {
 
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
-  const [cargando, setCargando] = useState(false);
 
   const handleChange = (e) => {
     setForm({
@@ -30,23 +29,14 @@ function Register() {
     e.preventDefault();
     setError("");
     setMensaje("");
-    setCargando(true);
 
     if (!form.nombre || !form.email || !form.password || !form.confirmar) {
       setError("Debes completar todos los campos.");
-      setCargando(false);
-      return;
-    }
-
-    if (form.password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
-      setCargando(false);
       return;
     }
 
     if (form.password !== form.confirmar) {
       setError("Las contraseñas no coinciden.");
-      setCargando(false);
       return;
     }
 
@@ -64,8 +54,6 @@ function Register() {
       }, 1200);
     } catch (err) {
       setError(err.message);
-    } finally {
-      setCargando(false);
     }
   };
 
@@ -76,55 +64,66 @@ function Register() {
     >
       <div className="register-overlay">
         <div className="register-card">
-          <h2>Crear cuenta</h2>
-          <p>Regístrate para comenzar a comprar</p>
+          <div className="register-header">
+            <span className="register-badge">GameDrog</span>
+            <h2>Crear cuenta</h2>
+            <p>Únete a la tienda y descubre tus próximos juegos favoritos.</p>
+          </div>
 
           <form onSubmit={handleSubmit} className="register-form">
-            <input
-              type="text"
-              name="nombre"
-              placeholder="Nombre completo"
-              value={form.nombre}
-              onChange={handleChange}
-            />
+            <div className="input-group-register">
+              <label>Nombre</label>
+              <input
+                type="text"
+                name="nombre"
+                placeholder="Ingresa tu nombre"
+                value={form.nombre}
+                onChange={handleChange}
+              />
+            </div>
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Correo electrónico"
-              value={form.email}
-              onChange={handleChange}
-            />
+            <div className="input-group-register">
+              <label>Correo electrónico</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Ingresa tu correo"
+                value={form.email}
+                onChange={handleChange}
+              />
+            </div>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              value={form.password}
-              onChange={handleChange}
-            />
+            <div className="input-group-register">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Crea una contraseña"
+                value={form.password}
+                onChange={handleChange}
+              />
+            </div>
 
-            <input
-              type="password"
-              name="confirmar"
-              placeholder="Confirmar contraseña"
-              value={form.confirmar}
-              onChange={handleChange}
-            />
+            <div className="input-group-register">
+              <label>Confirmar contraseña</label>
+              <input
+                type="password"
+                name="confirmar"
+                placeholder="Repite tu contraseña"
+                value={form.confirmar}
+                onChange={handleChange}
+              />
+            </div>
 
             {error && <p className="error-text">{error}</p>}
             {mensaje && <p className="success-text">{mensaje}</p>}
 
-            <button
-              type="submit"
-              className="register-submit"
-              disabled={cargando}
-            >
-              {cargando ? "Creando cuenta..." : "Registrarse"}
+            <button type="submit" className="auth-btn">
+              Registrarse
             </button>
           </form>
 
-          <p className="register-extra">
+          <p className="auth-footer">
             ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
           </p>
         </div>

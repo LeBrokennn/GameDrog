@@ -1,5 +1,10 @@
-// Placeholder de DB: este proyecto aún no tiene base de datos conectada.
-// Si luego vas a usar MySQL/Postgres, aquí se centraliza la conexión.
-module.exports = {
-  connect: async () => true,
-};
+const { Pool } = require("pg");
+
+const pool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "gamedrog",
+  port: 5432,
+});
+
+module.exports = pool;

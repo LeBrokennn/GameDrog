@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "cors": "^2.8.6",
+    "expres": "^0.0.5",
+    "pg": "^8.20.0"
   }
 }
