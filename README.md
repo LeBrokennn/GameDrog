@@ -82,6 +82,7 @@ GameDrog representa una propuesta que combina diseño, funcionalidad y estructur
 ### ⚙️ Panel administrador
 ![Admin](./ruta-de-tu-imagen/admin.png)
 
+---
 
 ### Backend
 - **Node.js**
