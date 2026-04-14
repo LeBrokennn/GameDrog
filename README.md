@@ -132,7 +132,8 @@ GameDrog/
 │
 └── README.md
 
-👤 Experiencia del usuario
+
+###👤 Experiencia del usuario
 
 Dentro de la aplicación, el usuario puede:
 
