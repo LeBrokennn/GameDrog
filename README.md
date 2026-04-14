@@ -1,4 +1,4 @@
-# 🎮 GameDrog
+<img width="293" height="106" alt="image" src="https://github.com/user-attachments/assets/887d99ec-ceb1-4a34-a4eb-7fa70838b1df" /><img width="293" height="106" alt="image" src="https://github.com/user-attachments/assets/7f248f94-883a-4018-8199-d3fc48deed01" /># 🎮 GameDrog
 
 <div align="center">
 
@@ -64,6 +64,24 @@ GameDrog representa una propuesta que combina diseño, funcionalidad y estructur
 - **CSS3**
 - **JavaScript (ES6+)**
 - **Vite**
+
+## 📸 Capturas de pantalla
+
+### 🏠 Inicio
+![Inicio](./ruta-de-tu-imagen/home.png)
+
+### 🛍️ Productos
+![Productos](./ruta-de-tu-imagen/productos.png)
+
+### 🛒 Carrito
+![Carrito](./ruta-de-tu-imagen/carrito.png)
+
+### 🔐 Login
+![Login](./ruta-de-tu-imagen/login.png)
+
+### ⚙️ Panel administrador
+![Admin](./ruta-de-tu-imagen/admin.png)
+
 
 ### Backend
 - **Node.js**
@@ -147,7 +165,7 @@ Dentro de la aplicación, el usuario puede:
 - registrarse e iniciar sesión,
 - interactuar con una interfaz moderna y coherente con la temática del proyecto.
 
-  ⚙️ Enfoque administrativo
+## ⚙️ Enfoque administrativo
 
 El proyecto contempla una estructura preparada para escalar hacia una experiencia más completa de administración, permitiendo a futuro:
 
@@ -159,7 +177,7 @@ diferenciar entre usuario normal y administrador.
 
 Esto convierte a GameDrog en un proyecto con proyección real de crecimiento.
 
-🔌 Endpoints principales
+##🔌 Endpoints principales
 
 Ejemplo de rutas utilizadas en el backend:
 
@@ -170,7 +188,7 @@ DELETE /api/productos/:id
 
 Estas rutas permiten conectar el frontend con la base de datos para la gestión de productos.
 
-🗃️ Modelo de datos
+## 🗃️ Modelo de datos
 
 La tabla principal del proyecto corresponde a los productos de la tienda.
 Algunos de los campos considerados son:
@@ -186,7 +204,7 @@ descripcion
 
 Esta estructura permite organizar correctamente la información y presentarla de forma dinámica en el catálogo.
 
-🎨 Diseño y enfoque visual
+## 🎨 Diseño y enfoque visual
 
 Uno de los puntos importantes de GameDrog es su presentación visual.
 El proyecto busca mantener una estética moderna, temática y coherente con el mundo gaming, apoyándose en:
@@ -196,41 +214,43 @@ estilos personalizados en CSS,
 componentes reutilizables,
 diseño responsive,
 y una interfaz pensada para mejorar la experiencia del usuario.
-💻 Instalación y ejecución
+
+## 💻 Instalación y ejecución
 1. Clonar el repositorio
 git clone https://github.com/LeBrokennn/GameDrog.git
-2. Ingresar al proyecto
+3. Ingresar al proyecto
 cd GameDrog
-3. Instalar dependencias
+5. Instalar dependencias
 Frontend
 npm install
 Backend
 npm install
-4. Ejecutar el proyecto
+7. Ejecutar el proyecto
 Frontend
 npm run dev
 Backend
 node index.js
-📈 Mejoras futuras
+
+## 📈 Mejoras futuras
 
 Entre las mejoras proyectadas para GameDrog se encuentran:
 
-autenticación con roles de usuario,
-panel de administración funcional,
-filtros avanzados por categoría,
-vista detallada de producto,
-integración con pasarela de pago,
-despliegue completo en servidor,
-optimización de experiencia de usuario.
-📌 Estado del proyecto
+- Autenticación con roles de usuario.
+- Panel de administración funcional.
+- Filtros avanzados por categoría.
+- Vista detallada de producto.
+- Integración con pasarela de pago.
+- Despliegue completo en servidor.
+- Optimización de experiencia de usuario.
+
+## 📌 Estado del proyecto
 
 🚧 En desarrollo
-
 Actualmente el proyecto continúa en proceso de mejora visual, optimización de funcionalidades e integración más completa entre frontend, backend y base de datos.
 
 👩‍💻 Autora
 
-Javiera
+Javiera Paz Saavedra Pérez
 Desarrolladora en formación, enfocada en el aprendizaje y desarrollo de proyectos web full stack.
 
 🔗 GitHub: LeBrokennn
