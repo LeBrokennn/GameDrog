@@ -95,6 +95,8 @@ La aplicación está construida bajo una arquitectura **cliente-servidor**, dond
 
 ## 📁 Estructura del proyecto
 
+## 📁 Estructura del proyecto
+
 ```bash
 GameDrog/
 │
@@ -131,21 +133,21 @@ GameDrog/
 │   └── vite.config.js
 │
 └── README.md
+```
 
 ---
-👤 Experiencia del usuario
+
+## 👤 Experiencia del usuario
 
 Dentro de la aplicación, el usuario puede:
 
-navegar por la tienda de forma intuitiva,
-revisar los productos disponibles,
-agregar artículos al carrito,
-registrarse e iniciar sesión,
-interactuar con una interfaz moderna y coherente con la temática del proyecto.
+- navegar por la tienda de forma intuitiva,
+- revisar los productos disponibles,
+- agregar artículos al carrito,
+- registrarse e iniciar sesión,
+- interactuar con una interfaz moderna y coherente con la temática del proyecto.
 
-La experiencia fue diseñada para ser clara, visualmente atractiva y adaptable a diferentes tamaños de pantalla.
-
-⚙️ Enfoque administrativo
+  ⚙️ Enfoque administrativo
 
 El proyecto contempla una estructura preparada para escalar hacia una experiencia más completa de administración, permitiendo a futuro:
 
@@ -237,5 +239,3 @@ Desarrolladora en formación, enfocada en el aprendizaje y desarrollo de proyect
 
 GameDrog no solo representa una tienda online en desarrollo, sino también un proyecto que demuestra aprendizaje, evolución técnica y capacidad de integrar distintas tecnologías en una misma solución.
 Es una muestra de trabajo orientada a portafolio, donde se combinan diseño, estructura y lógica de programación en una aplicación con potencial de crecimiento.
-
-
