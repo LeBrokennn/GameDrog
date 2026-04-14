@@ -114,8 +114,6 @@ La aplicación está construida bajo una arquitectura **cliente-servidor**, dond
 
 ## 📁 Estructura del proyecto
 
-## 📁 Estructura del proyecto
-
 ```bash
 GameDrog/
 │
@@ -178,7 +176,7 @@ diferenciar entre usuario normal y administrador.
 
 Esto convierte a GameDrog en un proyecto con proyección real de crecimiento.
 
-##🔌 Endpoints principales
+## 🔌 Endpoints principales
 
 Ejemplo de rutas utilizadas en el backend:
 
