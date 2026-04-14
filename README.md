@@ -1,4 +1,4 @@
-<img width="293" height="106" alt="image" src="https://github.com/user-attachments/assets/887d99ec-ceb1-4a34-a4eb-7fa70838b1df" /><img width="293" height="106" alt="image" src="https://github.com/user-attachments/assets/7f248f94-883a-4018-8199-d3fc48deed01" /># 🎮 GameDrog
+# 🎮 GameDrog
 
 <div align="center">
 
