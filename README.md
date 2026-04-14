@@ -30,12 +30,12 @@ Además de su enfoque visual, el proyecto fue pensado como una base sólida para
 
 Este proyecto fue creado con el objetivo de poner en práctica habilidades de desarrollo web, abordando aspectos clave como:
 
-- Construcción de interfaces dinámicas,
-- Navegación entre vistas,
-- Manejo de estado global,
-- Conexión entre cliente y servidor,
-- Consumo de datos desde una API,
-- Persistencia de información en base de datos relacional,
+- Construcción de interfaces dinámicas.
+- Navegación entre vistas.
+- Manejo de estado global.
+- Conexión entre cliente y servidor.
+- Consumo de datos desde una API.
+- Persistencia de información en base de datos relacional.
 - Organización de un proyecto escalable.
 
 GameDrog representa una propuesta que combina diseño, funcionalidad y estructura técnica en un entorno similar al de una tienda online real.
